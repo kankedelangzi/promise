@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript">
+    function doSomething (){
+        return new Promise_1(function(resolve){
+
+            setTimeout(function(){
+                debugger
+                resolve(123);
+            },5000);
+        });
+    };
+
+    function Promise_1(fn){
+        this.value = '';
+        this.defferd = null;
+        this.state = 'pendding';
+        var  _this = this;// 防止settimeout等修改this指向
+        this.handle = function (callback){
+            debugger
+            if(this.state == 'pendding'){//异步
+                this.defferd = callback;
+                return;
+            };
+            callback(this.value);
+        };
+        this.then = function (cb){
+            this.handle(cb)
+        };
+        this.resolve = function (newValue) {
+            
+            _this.state = 'resolved';
+            _this.value = newValue;
+
+            if(_this.defferd){// 如果是异步
+                _this.handle(_this.defferd);
+            }
+
+        }
+        fn(this.resolve)
+    }
+
+
+
+    var p = doSomething();
+    p.then(function(value){
+        console.log(value)
+    })
+</script>
+
+</html>
