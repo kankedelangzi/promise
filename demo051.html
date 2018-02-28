@@ -16,7 +16,7 @@
         return new Promise_1(function(resolve){
 
             setTimeout(function(){
-                debugger
+            
                 resolve(123);
             },5000);
         });
@@ -39,7 +39,7 @@
             this.handle(cb)
         };
         this.resolve = function (newValue) {
-            
+
             _this.state = 'resolved';
             _this.value = newValue;
 
